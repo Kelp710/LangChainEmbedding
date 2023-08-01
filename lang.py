@@ -7,7 +7,6 @@ from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 
-
 loaders= [UnstructuredPDFLoader(os.path.join("data/", fn)) for fn in os.listdir("data")]
 
 docs=[]
@@ -20,7 +19,11 @@ db = FAISS.from_documents(splited_docs, OpenAIEmbeddings())
 
 retriever = db.as_retriever()
 llm = ChatOpenAI(model_name="gpt-3.5-turbo")
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever, return_source_documents=True)
+qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
+                                 chain_type="stuff", 
+                                 retriever=retriever, 
+                                 return_source_documents=True
+                                 )
 
 while True:
     inquery = input("入力>> ")
